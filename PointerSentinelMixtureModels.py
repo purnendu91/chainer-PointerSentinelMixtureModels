@@ -6,6 +6,7 @@ import chainer.functions as F
 import chainer.links as Links
 xp = numpy
 
+import io
 import argparse
 import json
 import time
@@ -128,7 +129,7 @@ def main():
 
     if mode == "train" or mode == "restart":
 
-        with open("train_data.txt", encoding="utf-8") as f:
+        with io.open("train_data.txt", encoding="utf-8") as f:
             train_data = [json.loads(line) for line in f]
 
         if args.mode == "train":
@@ -159,19 +160,19 @@ def main():
             id2wd[id] = "<unk>"
             vsize = len(vocab)
 
-            with open("data/vocab", "w", encoding="utf-8") as wf:
+            with io.open("data/vocab", "w", encoding="utf-8") as wf:
                 wf.write(json.dumps(vocab, ensure_ascii=False))
 
-            with open("data/id2wd", "w", encoding="utf-8") as wf:
+            with io.open("data/id2wd", "w", encoding="utf-8") as wf:
                 wf.write(json.dumps(id2wd, ensure_ascii=False))
 
             model = PointerSentinelMixtureModels(vsize, vsize, embed_dim, hidden_size, window_size, vocab)
 
         if args.mode == "restart":
-            with open(vocab_path, "r", encoding="utf-8") as rf:
+            with io.open(vocab_path, "r", encoding="utf-8") as rf:
                 vocab = json.loads(rf.read())
 
-            with open(id_path, "r", encoding="utf-8") as rf:
+            with io.open(id_path, "r", encoding="utf-8") as rf:
                 id2wd = json.loads(rf.read())
             vsize = len(vocab)
 
@@ -237,13 +238,13 @@ def main():
         data_dir = args.data_path
         decode_dir = args.decode_path
 
-        with open(vocab_path, "r", encoding="utf-8") as rf:
+        with io.open(vocab_path, "r", encoding="utf-8") as rf:
             vocab = json.loads(rf.read())
 
-        with open(id_path, "r", encoding="utf-8") as rf:
+        with io.open(id_path, "r", encoding="utf-8") as rf:
             id2wd = json.loads(rf.read())
 
-        with open(data_dir, "r", encoding="utf-8") as rf:
+        with io.open(data_dir, "r", encoding="utf-8") as rf:
             encode_data = [json.loads(line)["input"] for line in rf]
         vsize = len(vocab)
 
@@ -255,7 +256,7 @@ def main():
 
         decode_texts = [bs.beam_search(reversed(encode_text))[0].tokens[1:] for encode_text in encode_data]
 
-        with open(decode_dir, "w", encoding="utf-8") as wf:
+        with io.open(decode_dir, "w", encoding="utf-8") as wf:
             for decode_text in decode_texts:
                 wf.write("".join(decode_text) + "\n")
 
