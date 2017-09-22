@@ -80,7 +80,13 @@ class BeamSearch(object):
         g, rnn_distribution, a = self.model.decode_one_step(token, window_words, hidden_states)
         g_log_pvocab = numpy.log(cuda.to_cpu(rnn_distribution.data[0] * g.data[0]))
         # last element is sentinel vector
+        print "working 1"
+        print g_log_pptr
+        print a.data[0]
+        print g.data[0]
         g_log_pptr = numpy.log(cuda.to_cpu(a.data[0] * (1 - g.data[0])))[:-1]
+        print "working 2"
+
         for idx, word in enumerate(window_words):
             if word in self.vocab:
                 g_log_pvocab[self.vocab[word]] += g_log_pptr[idx]
