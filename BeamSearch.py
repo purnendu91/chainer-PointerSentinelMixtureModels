@@ -81,11 +81,11 @@ class BeamSearch(object):
         g_log_pvocab = numpy.log(cuda.to_cpu(rnn_distribution.data[0] * g.data[0]))
         # last element is sentinel vector
         print "working 1"
-        print g_log_pptr
         print a.data[0]
         print g.data[0]
         g_log_pptr = numpy.log(cuda.to_cpu(a.data[0] * (1 - g.data[0])))[:-1]
         print "working 2"
+        print g_log_pptr
 
         for idx, word in enumerate(window_words):
             if word in self.vocab:
