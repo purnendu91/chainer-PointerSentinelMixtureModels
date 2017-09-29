@@ -196,7 +196,8 @@ def main():
         # repeat reading all training data 10 times
         for i in range(10):
             sffindx = list(numpy.random.permutation(n))
-            for j in range(0, n, bs):
+            # for j in range(0, n, bs):
+            while(!early_stopping):
                 epoch += 1
                 s = time.time()
                 accum_loss = None
@@ -221,9 +222,9 @@ def main():
                     logging.info("Saved Models as {}".format(outfile))
 
                 # early stop if loss of one data less than 0.1
-                # if accum_loss.data[0] < bs * 0.1:
-                #     early_stopping = True
-                #     break
+                if accum_loss.data[0] < bs * 0.1:
+                    early_stopping = True
+                    break
 
                 if epoch == 200:
                     early_stopping = True
