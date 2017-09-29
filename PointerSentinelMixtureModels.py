@@ -221,7 +221,11 @@ def main():
                     logging.info("Saved Models as {}".format(outfile))
 
                 # early stop if loss of one data less than 0.1
-                if accum_loss.data[0] < bs * 0.1:
+                # if accum_loss.data[0] < bs * 0.1:
+                #     early_stopping = True
+                #     break
+
+                if epoch == 200:
                     early_stopping = True
                     break
 
