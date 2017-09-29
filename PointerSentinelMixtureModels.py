@@ -197,7 +197,7 @@ def main():
         for i in range(10):
             sffindx = list(numpy.random.permutation(n))
             # for j in range(0, n, bs):
-            while(!early_stopping):
+            while (not early_stopping):
                 epoch += 1
                 s = time.time()
                 accum_loss = None
