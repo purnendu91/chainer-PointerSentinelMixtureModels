@@ -85,7 +85,7 @@ class BeamSearch(object):
         print a.data[0]
         print g.data[0]
         # g_log_pptr = numpy.log(cuda.to_cpu(a.data[0] * (1 - g.data[0])))[:-1]
-        g_log_pptr = numpy.log(cuda.to_cpu(a.data[0] * g.data[0]))[:-1]
+        g_log_pptr = numpy.log(cuda.to_cpu(a.data[0] * 1))[:-1]
 
         print "working 2"
         print g_log_pptr
@@ -93,10 +93,11 @@ class BeamSearch(object):
         for idx, word in enumerate(window_words):
             if word in self.vocab:
                 g_log_pvocab[self.vocab[word]] += g_log_pptr[idx]
-        pvocab_topk = [{"log_prob": g_log_pvocab[i], "word": self.id2wd[str(i)]} for i in numpy.argsort(g_log_pvocab)][:self.beam_size]
+        # pvocab_topk = [{"log_prob": g_log_pvocab[i], "word": self.id2wd[str(i)]} for i in numpy.argsort(g_log_pvocab)][:self.beam_size]
         pptr_topk = [{"log_prob": g_log_pptr[i], "word": window_words[i]} for i in numpy.argsort(g_log_pptr)][:self.beam_size if self.beam_size < len(window_words) else len(window_words)]
 
-        pvocab_pptr_topk = pvocab_topk + pptr_topk
+        # pvocab_pptr_topk = pvocab_topk + pptr_topk
+        pvocab_pptr_topk = pptr_topk
         token_topk = []
         log_prob_topk = []
         sorted(pvocab_pptr_topk, key=lambda x:x["log_prob"], reverse=True)
