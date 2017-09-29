@@ -194,9 +194,9 @@ def main():
         early_stopping = False
         epoch = 0
         # repeat reading all training data 10 times
-        for i in range(40):
+        for i in range(200):
             sffindx = list(numpy.random.permutation(n))
-            for j in range(0, n, bs):
+            for j in range(0, n, 50):
             # while (not early_stopping):
                 epoch += 1
                 s = time.time()
@@ -226,7 +226,7 @@ def main():
                     early_stopping = True
                     break
 
-                if epoch == 400:
+                if epoch == 800:
                     early_stopping = True
                     break
 
